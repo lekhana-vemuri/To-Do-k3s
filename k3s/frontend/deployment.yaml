@@ -12,6 +12,12 @@ spec:
     matchLabels:
       app: todo-frontend
 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+
   template:
     metadata:
       labels:
@@ -21,7 +27,36 @@ spec:
       containers:
       - name: todo-frontend
 
-        image: lekhana/todo-frontend:v1
+        image: lekhanavemuri/todo-frontend:v1
+
+        imagePullPolicy: Always
 
         ports:
         - containerPort: 80
+
+        startupProbe:
+          tcpSocket:
+            port: 80
+          failureThreshold: 30
+          periodSeconds: 5
+
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 15
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
