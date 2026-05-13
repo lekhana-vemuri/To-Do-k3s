@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: todo-frontend
+  namespace: todo-3tier
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: todo-frontend
+
+  template:
+    metadata:
+      labels:
+        app: todo-frontend
+
+    spec:
+      containers:
+      - name: todo-frontend
+
+        image: lekhana/todo-frontend:v1
+
+        ports:
+        - containerPort: 80

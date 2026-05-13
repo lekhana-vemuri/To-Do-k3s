@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: todo-backend
+  namespace: todo-3tier
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: todo-backend
+
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+
+    spec:
+      containers:
+      - name: todo-backend
+
+        image: lekhana/todo-backend:v1
+
+        ports:
+        - containerPort: 3000
+
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: todo-config
+              key: DB_HOST
+
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: todo-config
+              key: DB_PORT
+
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: todo-config
+              key: DB_NAME
+
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: todo-secret
+              key: POSTGRES_USER
+
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: todo-secret
+              key: POSTGRES_PASSWORD
