@@ -23,6 +23,8 @@ spec:
 
         image: postgres:16-alpine
 
+        imagePullPolicy: Always
+
         ports:
         - containerPort: 5432
 
