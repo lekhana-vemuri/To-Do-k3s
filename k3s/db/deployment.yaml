@@ -26,18 +26,15 @@ spec:
         ports:
         - containerPort: 5432
 
-        env:
-        - name: POSTGRES_DB
-          value: todoapp
+        envFrom:
+        - secretRef:
+            name: todo-secret
 
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: todo-secret
-              key: POSTGRES_USER
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
 
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: todo-secret
-              key: POSTGRES_PASSWORD
+          limits:
+            cpu: "300m"
+            memory: "256Mi"

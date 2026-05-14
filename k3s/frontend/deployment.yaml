@@ -34,6 +34,10 @@ spec:
         ports:
         - containerPort: 80
 
+        envFrom:
+        - configMapRef:
+            name: todo-config
+
         startupProbe:
           tcpSocket:
             port: 80
