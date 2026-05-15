@@ -28,7 +28,7 @@ spec:
       containers:
       - name: todo-frontend
 
-        image: lekhanavemuri/todo-frontend:227ea54
+        image: lekhanavemuri/todo-frontend:577473b
 
         imagePullPolicy: Always
 
