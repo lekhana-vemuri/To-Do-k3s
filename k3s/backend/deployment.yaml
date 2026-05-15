@@ -36,7 +36,7 @@ spec:
 
       - name: todo-backend
 
-        image: lekhanavemuri/todo-backend:5
+        image: lekhanavemuri/todo-backend:6
 
         imagePullPolicy: Always
 
