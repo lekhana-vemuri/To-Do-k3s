@@ -2,7 +2,7 @@
   "apiVersion": "argoproj.io/v1alpha1",
   "kind": "ApplicationSet",
   "metadata": {
-    "name": "three-tier-appset",
+    "name": "todo-three-tier-appset",
     "namespace": "argocd"
   },
   "spec": {
@@ -24,7 +24,7 @@
     ],
     "template": {
       "metadata": {
-        "name": "{{path.basename}}-app"
+        "name": "todo-{{path.basename}}-app"
       },
       "spec": {
         "project": "default",
