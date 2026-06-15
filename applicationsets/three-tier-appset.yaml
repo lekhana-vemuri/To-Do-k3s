@@ -2,7 +2,7 @@
   "apiVersion": "argoproj.io/v1alpha1",
   "kind": "ApplicationSet",
   "metadata": {
-    "name": "todo-gitops-appset",
+    "name": "appset-gitops",
     "namespace": "argocd"
   },
   "spec": {
@@ -24,7 +24,7 @@
     ],
     "template": {
       "metadata": {
-        "name": "todo-gitops-{{path.basename}}-app"
+        "name": "appset-gitops-{{path.basename}}-app"
       },
       "spec": {
         "project": "default",
