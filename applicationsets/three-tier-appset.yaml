@@ -1,0 +1,49 @@
+{
+  "apiVersion": "argoproj.io/v1alpha1",
+  "kind": "ApplicationSet",
+  "metadata": {
+    "name": "three-tier-appset",
+    "namespace": "argocd"
+  },
+  "spec": {
+    "generators": [
+      {
+        "git": {
+          "repoURL": "https://github.com/lekhana-vemuri/To-Do-k3s.git",
+          "revision": "main",
+          "directories": [
+            {
+              "path": "k3s/frontend"
+            },
+            {
+              "path": "k3s/backend"
+            }
+          ]
+        }
+      }
+    ],
+    "template": {
+      "metadata": {
+        "name": "{{path.basename}}-app"
+      },
+      "spec": {
+        "project": "default",
+        "source": {
+          "repoURL": "https://github.com/lekhana-vemuri/To-Do-k3s.git",
+          "targetRevision": "main",
+          "path": "{{path}}"
+        },
+        "destination": {
+          "server": "https://kubernetes.default.svc",
+          "namespace": "todo-3tier"
+        },
+        "syncPolicy": {
+          "automated": {
+            "prune": true,
+            "selfHeal": true
+          }
+        }
+      }
+    }
+  }
+}
