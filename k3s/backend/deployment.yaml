@@ -27,7 +27,7 @@ spec:
         app: todo-backend
 
       annotations:
-        test: "appset-verification-v1"
+        test: "appset-verification-v2"
 
     spec:
       imagePullSecrets:
