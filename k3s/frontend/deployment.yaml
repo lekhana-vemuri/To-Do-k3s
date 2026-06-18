@@ -24,6 +24,9 @@ spec:
       labels:
         app: todo-frontend
 
+      annotations:
+        test: "frontend-verification-v1"
+
     spec:
       containers:
       - name: todo-frontend
