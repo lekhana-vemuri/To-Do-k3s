@@ -52,7 +52,7 @@ spec:
       containers:
         - name: todo-backend
 
-          image: lekhanavemuri/todo-backend:12
+          image: lekhanavemuri/todo-backend:14
 
           imagePullPolicy: IfNotPresent
 
