@@ -49,7 +49,7 @@ spec:
       containers:
         - name: todo-frontend
 
-          image: lekhanavemuri/todo-frontend:15
+          image: lekhanavemuri/todo-frontend:16
 
           imagePullPolicy: IfNotPresent
 
