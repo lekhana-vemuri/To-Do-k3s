@@ -6,9 +6,9 @@ metadata:
   namespace: todo-3tier
 
 spec:
-  replicas: 1
+  replicas: 2
 
-  revisionHistoryLimit: 1
+  revisionHistoryLimit: 3
 
   selector:
     matchLabels:
@@ -25,20 +25,40 @@ spec:
     metadata:
       labels:
         app: todo-backend
+        app.kubernetes.io/name: todo-backend
+        app.kubernetes.io/part-of: todo-3tier
 
       annotations:
         test: "appset-verification-v2"
 
     spec:
+      automountServiceAccountToken: false
+
+      securityContext:
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        seccompProfile:
+          type: RuntimeDefault
+
       imagePullSecrets:
         - name: dockerhub-secret
+
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: todo-backend
+                topologyKey: kubernetes.io/hostname
 
       containers:
         - name: todo-backend
 
           image: lekhanavemuri/todo-backend:12
 
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
 
           ports:
             - containerPort: 3001
@@ -46,6 +66,12 @@ spec:
           envFrom:
             - secretRef:
                 name: todo-secret
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
 
           startupProbe:
             tcpSocket:
