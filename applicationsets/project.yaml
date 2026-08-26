@@ -1,32 +1,44 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
+
 metadata:
   name: todo-3tier
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: todo-3tier
+
 spec:
   description: Production project for the To-Do 3-tier application (frontend + backend).
+
   sourceRepos:
     - https://github.com/lekhana-vemuri/To-Do-k3s.git
-     - https://github.com/lekhana-vemuri/To-Do-environments.git
+    - https://github.com/lekhana-vemuri/To-Do-environments.git
+
   destinations:
     - server: https://kubernetes.default.svc
       namespace: todo-3tier
+
     - server: https://kubernetes.default.svc
       namespace: todo-3tier-staging
+
     - server: https://kubernetes.default.svc
       namespace: todo-3tier-production
+
   clusterResourceWhitelist:
     - group: ""
       kind: Namespace
+
     - group: external-secrets.io
       kind: SecretStore
+
     - group: external-secrets.io
       kind: ExternalSecret
+
   namespaceResourceWhitelist:
     - group: "*"
       kind: "*"
+
   orphanedResources:
     warn: true
+
   syncWindows: []
