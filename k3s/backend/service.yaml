@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: todo-backend-service
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 4000
       targetPort: 6001
+      nodePort: 30000
   selector:
     app: todo-backend
