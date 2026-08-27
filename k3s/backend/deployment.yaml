@@ -12,6 +12,8 @@ spec:
       labels:
         app: todo-backend
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       imagePullSecrets:
         - name: dockerhub-secret
       containers:
@@ -19,7 +21,7 @@ spec:
           image: lekhanavemuri/todo-backend:16
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 6001
+            - containerPort: 3001
           envFrom:
             - secretRef:
                 name: todo-secret
@@ -27,17 +29,17 @@ spec:
                 name: todo-config
           startupProbe:
             tcpSocket:
-              port: 6001
+              port: 3001
             failureThreshold: 30
             periodSeconds: 5
           readinessProbe:
             tcpSocket:
-              port: 6001
+              port: 3001
             initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
-              port: 6001
+              port: 3001
             initialDelaySeconds: 15
             periodSeconds: 15
           resources:
