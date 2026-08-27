@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: todo-frontend
 spec:
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -26,24 +26,12 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app: todo-frontend
-                topologyKey: kubernetes.io/hostname
       containers:
         - name: todo-frontend
           image: lekhanavemuri/todo-frontend:16
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
-          envFrom:
-            - secretRef:
-                name: todo-secret
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:

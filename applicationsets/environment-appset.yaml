@@ -12,9 +12,6 @@ spec:
           - environment: staging
             branch: staging
             namespace: todo-3tier-staging
-          - environment: production
-            branch: production
-            namespace: todo-3tier-production
   template:
     metadata:
       name: 'todo-{{environment}}'
