@@ -23,13 +23,10 @@ spec:
         managed-by: argocd-applicationset
     spec:
       project: todo-3tier
-      sources:
-        - repoURL: https://github.com/lekhana-vemuri/To-Do-environments.git
-          targetRevision: '{{branch}}'
-          path: .
-        - repoURL: https://github.com/lekhana-vemuri/To-Do-k3s.git
-          targetRevision: main
-          ref: k3s
+      source:
+        repoURL: https://github.com/lekhana-vemuri/To-Do-environments.git
+        targetRevision: '{{branch}}'
+        path: .
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
