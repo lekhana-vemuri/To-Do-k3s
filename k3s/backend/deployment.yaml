@@ -22,11 +22,6 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4000
-          envFrom:
-            - secretRef:
-                name: todo-secret
-            - configMapRef:
-                name: todo-config
           startupProbe:
             tcpSocket:
               port: 4000
