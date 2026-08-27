@@ -1,44 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
   name: todo-backend
-  namespace: todo-3tier
-
 spec:
   replicas: 2
   revisionHistoryLimit: 3
-
   selector:
     matchLabels:
       app: todo-backend
-
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 1
-
   template:
     metadata:
       labels:
         app: todo-backend
         app.kubernetes.io/name: todo-backend
         app.kubernetes.io/part-of: todo-3tier
-
       annotations:
         test: "appset-verification-v2"
-
     spec:
       automountServiceAccountToken: false
-
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-
       imagePullSecrets:
         - name: dockerhub-secret
-
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -48,50 +37,39 @@ spec:
                   matchLabels:
                     app: todo-backend
                 topologyKey: kubernetes.io/hostname
-
       containers:
         - name: todo-backend
-
           image: lekhanavemuri/todo-backend:16
-
           imagePullPolicy: IfNotPresent
-
           ports:
             - containerPort: 3001
-
           envFrom:
             - secretRef:
                 name: todo-secret
-
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
-
           startupProbe:
             tcpSocket:
               port: 3001
             failureThreshold: 30
             periodSeconds: 5
-
           readinessProbe:
             tcpSocket:
               port: 3001
             initialDelaySeconds: 10
             periodSeconds: 10
-
           livenessProbe:
             tcpSocket:
               port: 3001
             initialDelaySeconds: 15
             periodSeconds: 15
-
           resources:
             requests:
               cpu: "200m"
               memory: "256Mi"
-
             limits:
               cpu: "500m"
               memory: "512Mi"
