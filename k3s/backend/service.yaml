@@ -6,6 +6,6 @@ spec:
   type: ClusterIP
   ports:
     - port: 4000
-      targetPort: 4000
+      targetPort: 6001
   selector:
     app: todo-backend
