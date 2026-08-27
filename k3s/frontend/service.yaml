@@ -4,6 +4,7 @@ metadata:
   name: todo-frontend-service
 spec:
   type: LoadBalancer
+  loadBalancerIP: 10.20.10.38
   ports:
     - port: 80
       targetPort: 80
