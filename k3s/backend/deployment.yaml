@@ -25,6 +25,8 @@ spec:
           envFrom:
             - secretRef:
                 name: todo-secret
+            - configMapRef:
+                name: todo-config
           startupProbe:
             tcpSocket:
               port: 6001
