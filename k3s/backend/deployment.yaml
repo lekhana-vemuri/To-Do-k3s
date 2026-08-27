@@ -4,6 +4,8 @@ metadata:
   name: todo-backend
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: todo-backend
@@ -21,7 +23,7 @@ spec:
           image: lekhanavemuri/todo-backend:16
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3001
+            - containerPort: 4000
           envFrom:
             - secretRef:
                 name: todo-secret
@@ -29,17 +31,17 @@ spec:
                 name: todo-config
           startupProbe:
             tcpSocket:
-              port: 3001
+              port: 4000
             failureThreshold: 30
             periodSeconds: 5
           readinessProbe:
             tcpSocket:
-              port: 3001
+              port: 4000
             initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
-              port: 3001
+              port: 4000
             initialDelaySeconds: 15
             periodSeconds: 15
           resources:
