@@ -13,6 +13,7 @@ spec:
   sourceRepos:
     - https://github.com/lekhana-vemuri/To-Do-k3s.git
     - https://github.com/lekhana-vemuri/To-Do-environments.git
+    - 'https://github.com/lekhana-vemuri/*'
 
   destinations:
     - server: https://kubernetes.default.svc

@@ -29,10 +29,15 @@ spec:
     spec:
       project: todo-3tier
 
-      source:
-        repoURL: https://github.com/lekhana-vemuri/To-Do-environments.git
-        targetRevision: '{{branch}}'
-        path: .
+      # Multi-source setup solves the 403 error by using Argo CD PAT credentials for both private repos
+      sources:
+        - repoURL: https://github.com/lekhana-vemuri/To-Do-environments.git
+          targetRevision: '{{branch}}'
+          path: .
+
+        - repoURL: https://github.com/lekhana-vemuri/To-Do-k3s.git
+          targetRevision: main
+          ref: k3s
 
       destination:
         server: https://kubernetes.default.svc
