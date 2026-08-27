@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: todo-frontend-service
 spec:
-  type: LoadBalancer
-  loadBalancerIP: 10.20.10.38
+  type: NodePort
   ports:
     - port: 80
       targetPort: 80
+      nodePort: 30409
   selector:
     app: todo-frontend
