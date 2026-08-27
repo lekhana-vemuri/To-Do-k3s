@@ -42,7 +42,7 @@ spec:
           image: lekhanavemuri/todo-backend:16
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3001
+            - containerPort: 6001
           envFrom:
             - secretRef:
                 name: todo-secret
@@ -53,17 +53,17 @@ spec:
                 - ALL
           startupProbe:
             tcpSocket:
-              port: 3001
+              port: 6001
             failureThreshold: 30
             periodSeconds: 5
           readinessProbe:
             tcpSocket:
-              port: 3001
+              port: 6001
             initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
-              port: 3001
+              port: 6001
             initialDelaySeconds: 15
             periodSeconds: 15
           resources:
