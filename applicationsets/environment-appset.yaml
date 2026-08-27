@@ -1,12 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
-
 metadata:
   name: environment-appset
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: todo-3tier
-
 spec:
   generators:
     - list:
@@ -14,51 +12,34 @@ spec:
           - environment: staging
             branch: staging
             namespace: todo-3tier-staging
-
           - environment: production
             branch: production
             namespace: todo-3tier-production
-
   template:
     metadata:
       name: 'todo-{{environment}}'
       labels:
         app.kubernetes.io/part-of: todo-3tier
         managed-by: argocd-applicationset
-
     spec:
       project: todo-3tier
-
-      # Multi-source setup solves the 403 error by using Argo CD PAT credentials for both private repos
       sources:
         - repoURL: https://github.com/lekhana-vemuri/To-Do-environments.git
           targetRevision: '{{branch}}'
           path: .
-
         - repoURL: https://github.com/lekhana-vemuri/To-Do-k3s.git
           targetRevision: main
           ref: k3s
-
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
-
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
-
         syncOptions:
           - CreateNamespace=true
           - ApplyOutOfSyncOnly=true
           - ServerSideApply=true
           - PruneLast=true
-
-        retry:
-          limit: 5
-          backoff:
-            duration: 5s
-            factor: 2
-            maxDuration: 3m
-
       revisionHistoryLimit: 3
