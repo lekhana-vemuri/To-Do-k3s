@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-frontend
+  namespace: todo-3tier-staging
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -19,39 +20,17 @@ spec:
         app: todo-frontend
         app.kubernetes.io/name: todo-frontend
         app.kubernetes.io/part-of: todo-3tier
-      annotations:
-        test: "frontend-verification-v2"
     spec:
-      automountServiceAccountToken: false
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       containers:
         - name: todo-frontend
-          image: lekhanavemuri/todo-frontend:v22
-          imagePullPolicy: IfNotPresent
+          image: lekhanavemuri/todo-frontend:v24
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-          startupProbe:
-            tcpSocket:
-              port: 80
-            failureThreshold: 30
-            periodSeconds: 5
-          readinessProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          livenessProbe:
-            tcpSocket:
-              port: 80
-            initialDelaySeconds: 15
-            periodSeconds: 15
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/nginx/html/env-config.js
+              subPath: env-config.js
           resources:
             requests:
               cpu: "100m"
@@ -59,3 +38,10 @@ spec:
             limits:
               cpu: "300m"
               memory: "256Mi"
+      volumes:
+        - name: config-volume
+          configMap:
+            name: todo-config
+            items:
+              - key: env-config.js
+                path: env-config.js
