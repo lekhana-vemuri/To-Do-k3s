@@ -2,10 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-backend
+  namespace: todo-3tier-staging
 spec:
   replicas: 1
-  strategy:
-    type: RollingUpdate
   selector:
     matchLabels:
       app: todo-backend
@@ -17,35 +16,12 @@ spec:
       imagePullSecrets:
         - name: dockerhub-secret
       containers:
-        - name: todo-backend
+        - name: backend
           image: lekhanavemuri/todo-backend:20
-          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 6001
           envFrom:
-            - secretRef:
-                name: todo-secret
             - configMapRef:
                 name: todo-config
-          startupProbe:
-            tcpSocket:
-              port: 6001
-            failureThreshold: 30
-            periodSeconds: 5
-          readinessProbe:
-            tcpSocket:
-              port: 6001
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          livenessProbe:
-            tcpSocket:
-              port: 6001
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          resources:
-            requests:
-              cpu: "200m"
-              memory: "256Mi"
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
+            - secretRef:
+                name: todo-secret
