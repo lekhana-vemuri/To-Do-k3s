@@ -10,7 +10,7 @@ spec:
     - list:
         elements:
           - environment: staging
-            branch: staging
+            branch: main
             namespace: todo-3tier-staging
   template:
     metadata:
@@ -21,9 +21,9 @@ spec:
     spec:
       project: todo-3tier
       source:
-        repoURL: https://github.com/lekhana-vemuri/To-Do-environments.git
+        repoURL: https://github.com/lekhana-vemuri/To-Do-k3s.git
         targetRevision: '{{branch}}'
-        path: .
+        path: k3s
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
